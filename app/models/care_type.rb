@@ -1,0 +1,2 @@
+class CareType < ApplicationRecord
+end

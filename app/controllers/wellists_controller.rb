@@ -1,0 +1,2 @@
+class WellistsController < ApplicationController
+end

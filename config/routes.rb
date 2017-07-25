@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
-  namespace :api, defaults: { format: 'json' } do
-    resources :users, only: [:show, :update] do
-      resource :wellist, only: [:update, :destroy], controller: 'wellist'
-      get :wellist, to: 'wellist#show', controller: 'wellist'
-    end
-    resources :vendors, only: [:show, :create]  
-  end
 
-  root to: redirect('/422.html')
+  root 'home#show'
 
-  match '*unmatched', via: [:options],
-                      to:  ->(_env) { [200, { 'Content-Type' => 'text/plain' }, ["OK\n"]] }
+  get '/user/:id',          to: 'home#show',   as: :home
+
+  post   '/api/add/:id',        to: 'api#create',  as: :api_add_vendor
+  post   '/api/hide/:id',       to: 'api#update',  as: :api_toggle_vendor
+  delete '/api/remove/:id',     to: 'api#destroy', as: :api_remove_vendor
+
+
+
 end
+

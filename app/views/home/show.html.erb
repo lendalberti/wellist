@@ -1,0 +1,137 @@
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    $('select').on('change', function() {
+      console.log("changing to user: " + $(this).val() );
+      location.href='/user/'+$(this).val();
+    });
+
+
+    $('#toggle_list').on('click', function() {
+      var tmp      = $('[id^=current_user_]').attr('id');
+      var match    = /^current_user_(\d+)$/.exec(tmp);
+      var user_id  = RegExp.$1;
+      var postData = { list: true, user: user_id, item_id: user_id };
+
+      debugger;
+
+      $.ajax({
+        url: "<%= api_toggle_vendor_url %>",
+        type: 'POST',
+        dataType: 'json',
+        data: postData,
+        success: function(result) { 
+          location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)  {
+          var msg = "* Could not update list; " + errorThrown
+          console.log(msg);
+          $('#err_msg').text(msg);
+        }
+      });
+    });
+
+
+
+    $('[id^=toggle_vendor_]').on('click', function() { 
+      var tmp = $(this).attr('id');
+      var match = /^toggle_vendor_(\d+)$/.exec(tmp);
+      var wellist_id = RegExp.$1;
+
+      tmp   = $('[id^=current_user_]').attr('id');
+      match = /^current_user_(\d+)$/.exec(tmp);
+      var user_id = RegExp.$1;
+
+      var postData = { list: false, user: user_id, item_id: wellist_id };
+
+      $.ajax({
+        url: "<%= api_toggle_vendor_url %>",
+        type: 'POST',
+        dataType: 'json',
+        data: postData,
+        success: function(result) { 
+          location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)  {
+          var msg = "* Could not update list; " + errorThrown
+          console.log(msg);
+          $('#err_msg').text(msg);
+        }
+      });
+    });
+
+     
+
+   
+
+  });
+  
+
+</script>
+
+In lieu of user login...
+<select>
+<option>Select user</option>
+  <% @users.each do |u| %>  
+    <option value="<%= u.id %>"><%= u.fullname %></option>
+  <% end %>
+</select>
+
+<% if @my_wellist.present? %>
+  <h2>My Wellist </h2>
+  <label>Name: </label><span id="current_user_<%= @my_wellist[0].user.id%>" style='padding-left: 5px;'><%= @my_wellist[0].user.fullname %></span><br />
+  <label>Email: </label><span style='padding-left: 5px;'><%= @my_wellist[0].user.email %></span><br />
+  <label id='status'>Wellist Status: </label> <span id='wellist_status' style='padding-left: 5px;'><%= @my_wellist[0].public_list == true ? 'PUBLIC' : 'PRIVATE' %></span>
+  <a href='#' id='toggle_list'>Toggle</a>
+
+  <div style='margin: 20px;'>
+    <table id='table_my_wellist'>
+      <thead>
+        <tr> <th>Vendor Name</th>   <th>Category</th>   <th>Care Type</th>   <th>Care Sub Type</th>  <th>Status</th>  <th></th>    </tr>
+      </thead>
+
+      <tbody>
+          <% @my_wellist.each do |w| %>
+            <tr>  
+              <td><%= w.vendor.name %></td>
+              <td><%= w.vendor.category.name %></td>
+              <td><%= w.vendor.care_type.name %></td>
+              <td><%= w.vendor.care_sub_type.name %></td> 
+              <td><%= w.public_vendor ? 'Public' : 'Private' %></td> 
+              <td><a href='#' id='toggle_vendor_<%= w.id %>'>Toggle</a> <a href='#' id='remove_vendor_<%= w.id %>'>remove</a> 
+            </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <div style='margin: 10px 0px 50px 0px;'>
+      <a href='#' id='add_vendor'>Add Vendor</a>
+      
+    </div>
+  </div>
+<% end %>
+
+
+
+
+<h1>Public Wellists</h1>
+<div>
+  <table id='table_public_wellist'>
+    <thead>
+      <tr> <th>User</th> <th>Email</th> <th>Vendor Name</th>   <th>Category</th>   <th>Care Type</th>   <th>Care Sub Type</th>    </tr>
+    </thead>
+
+    <tbody>
+        <% @public_wellist.each do |w| %>
+          <tr>  
+            <td><%= w.user.fullname %></td>
+            <td><%= w.user.email %></td>
+            <td><%= w.vendor.name %></td>
+            <td><%= w.vendor.category.name %></td>
+            <td><%= w.vendor.care_type.name %></td>
+            <td><%= w.vendor.care_sub_type.name %></td> 
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>

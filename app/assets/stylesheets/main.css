@@ -1,0 +1,55 @@
+    
+body {
+  margin: 40px;
+}
+
+#table_public_wellist,
+#table_my_wellist {
+  border: 1px solid lightgray;
+  width: 100%;
+}
+
+
+#table_public_wellist > thead > tr > th,
+#table_my_wellist > thead > tr > th {
+  background: gray;
+  color: white;
+  font-weight: normal;
+  padding: 5px;
+  width: 15%;
+}
+
+#table_public_wellist > tbody > tr > td,
+#table_my_wellist > tbody > tr > td {
+  padding: 10px;
+}
+
+#table_public_wellist > tbody > tr:nth-child(odd),
+#table_my_wellist > tbody > tr:nth-child(odd) {
+  background-color: #ECE8DC;
+}
+
+#add_vendor,
+#toggle_list,
+[id^='toggle_vendor_']  {
+  font-variant: small-caps;
+  background-color: #337ab7;
+  padding: 3px 9px;
+  color: white;
+  border-radius: 10px;
+  margin: 2px;
+}
+
+#add_vendor:hover,
+[id^='toggle_vendor_']:hover,
+#toggle_list:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+[id^='remove_vendor_'] {
+  font-variant: small-caps;
+  color: red;
+}
+
+
