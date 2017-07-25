@@ -53,7 +53,12 @@ class ApiController < ApplicationController
 
   # remove vendor
   def destroy
-    byebug
+    if params['wellist_id'].present?
+      Wellist.find(params['wellist_id']).destroy
+    end
+
+    render :json => { :status_code => 200, :msg => 'vendor deleted from wellist' }
+
   end
 
 

@@ -9,13 +9,9 @@
 
 
     $('#toggle_list').on('click', function() {
-      var tmp      = $('[id^=current_user_]').attr('id');
-      var match    = /^current_user_(\d+)$/.exec(tmp);
-      var user_id  = RegExp.$1;
+      var user_id  = getID($('[id^=current_user_]'));
       var postData = { list: true, user: user_id, item_id: user_id };
 
-      debugger;
-
       $.ajax({
         url: "<%= api_toggle_vendor_url %>",
         type: 'POST',
@@ -31,19 +27,12 @@
         }
       });
     });
-
-
 
     $('[id^=toggle_vendor_]').on('click', function() { 
-      var tmp = $(this).attr('id');
-      var match = /^toggle_vendor_(\d+)$/.exec(tmp);
-      var wellist_id = RegExp.$1;
-
-      tmp   = $('[id^=current_user_]').attr('id');
-      match = /^current_user_(\d+)$/.exec(tmp);
-      var user_id = RegExp.$1;
-
-      var postData = { list: false, user: user_id, item_id: wellist_id };
+      debugger;
+      var wellist_id = getID(this);
+      var user_id    = getID($('[id^=current_user_]'));
+      var postData   = { list: false, user: user_id, item_id: wellist_id };
 
       $.ajax({
         url: "<%= api_toggle_vendor_url %>",
@@ -61,6 +50,36 @@
       });
     });
 
+    $('[id^=remove_vendor_]').on('click', function() { 
+      var wellist_id = getID(this);
+      var postData   = { wellist_id: wellist_id }
+
+      if ( confirm( "Are you sure you want to delete this vendor from your Wellist?") ) {
+        $.ajax({
+          url: "<%= api_remove_vendor_url %>",
+          type: 'DELETE',
+          dataType: 'json',
+          data: postData,
+          success: function(result) { 
+            location.reload();
+          },
+          error: function (jqXHR, textStatus, errorThrown)  {
+            var msg = "* Could not delete vendor; " + errorThrown
+            console.log(msg);
+            $('#err_msg').text(msg);
+          }
+        });
+      }
+
+    });
+
+
+
+    function getID(that) {
+      var tmp        = $(that).attr('id');
+      var match      = /^\w+_(\d+)$/.exec(tmp);
+      return RegExp.$1;
+    }
      
 
    
