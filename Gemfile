@@ -21,8 +21,13 @@ gem 'jbuilder', '~> 2.5'
 gem 'coffee-rails', '4.2.1'
 
 
+
+
+
 group :development, :test do
   gem 'byebug', platform: :mri
+  gem 'simplecov', require: false
+  gem 'rspec-rails'
 end
 
 group :development do

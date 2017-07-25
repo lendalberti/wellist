@@ -1,0 +1,38 @@
+one:
+  id: 1
+  name: Greenway Health, LLC
+  category_id: 1
+  care_type_id: 1
+  care_sub_type_id: 1
+  address: 39 E. Fifth Circle
+  city: Dearborn
+  state: MI
+  zip: 12345
+  price_rating: 1
+
+
+two:
+  id: 2
+  name: 3M Health Information Systems
+  category_id: 2
+  care_type_id: 2
+  care_sub_type_id: 2
+  address: 39 E. Fifth Circle
+  city: Dearborn
+  state: MI
+  zip: 12345
+  price_rating: 2
+
+
+new:
+  id: 3
+  name: Epic Systems Corp.
+  category_id: 2
+  care_type_id: 2
+  care_sub_type_id: 2
+  address: 39 E. Fifth Circle
+  city: Dearborn
+  state: MI
+  zip: 12345
+  price_rating: 1
+

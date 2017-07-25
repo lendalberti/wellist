@@ -134,16 +134,16 @@ In lieu of user login...
       </thead>
 
       <tbody>
-          <% @my_wellist.each do |w| %>
-            <tr>  
-              <td><%= w.vendor.name %></td>
-              <td><%= w.vendor.category.name %></td>
-              <td><%= w.vendor.care_type.name %></td>
-              <td><%= w.vendor.care_sub_type.name %></td> 
-              <td><%= w.public_vendor ? 'Public' : 'Private' %></td> 
-              <td><a href='#' id='toggle_vendor_<%= w.id %>'>Toggle</a> <a href='#' id='remove_vendor_<%= w.id %>'>remove</a> 
-            </tr>
-          <% end %>
+        <% @my_wellist.each do |w| %>
+          <tr>  
+            <td><%= w.vendor.name %></td>
+            <td><%= w.vendor.category.name %></td>
+            <td><%= w.vendor.care_type.name %></td>
+            <td><%= w.vendor.care_sub_type.name %></td> 
+            <td><%= w.public_vendor ? 'Public' : 'Private' %></td> 
+            <td><a href='#' id='toggle_vendor_<%= w.id %>'>Toggle</a> <a href='#' id='remove_vendor_<%= w.id %>'>remove</a> 
+          </tr>
+        <% end %>
       </tbody>
     </table>
     <div style='margin: 10px 0px 50px 0px;'>
