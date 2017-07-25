@@ -1,8 +1,10 @@
 <script type="text/javascript">
 
-  $(document).ready(function(){
+  $(document).ready(function() {
 
-    $('select').on('change', function() {
+    $('#div_vendor_select').hide();
+
+    $('#user_select').on('change', function() {
       console.log("changing to user: " + $(this).val() );
       location.href='/user/'+$(this).val();
     });
@@ -29,7 +31,6 @@
     });
 
     $('[id^=toggle_vendor_]').on('click', function() { 
-      debugger;
       var wellist_id = getID(this);
       var user_id    = getID($('[id^=current_user_]'));
       var postData   = { list: false, user: user_id, item_id: wellist_id };
@@ -70,19 +71,41 @@
           }
         });
       }
+    });
 
+    $('#add_vendor').on('click', function() { 
+      $('#div_vendor_select').show();
+      return false;
     });
 
 
+    $('#vendor_select').on('change', function() { 
+      var vendor_id = $('#vendor_select').val();
+      var user_id    = getID($('[id^=current_user_]'));
+      var postData  = { user_id: user_id, vendor_id: vendor_id }
 
+      $.ajax({
+        url: "<%= api_add_vendor_url %>",
+        type: 'POST',
+        dataType: 'json',
+        data: postData,
+        success: function(result) { 
+          location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown)  {
+          var msg = "* Could not add vendor to Wellist; " + errorThrown
+          console.log(msg);
+          $('#err_msg').text(msg);
+        }
+      });
+
+    });
+    
     function getID(that) {
       var tmp        = $(that).attr('id');
       var match      = /^\w+_(\d+)$/.exec(tmp);
       return RegExp.$1;
     }
-     
-
-   
 
   });
   
@@ -90,7 +113,7 @@
 </script>
 
 In lieu of user login...
-<select>
+<select id='user_select'>
 <option>Select user</option>
   <% @users.each do |u| %>  
     <option value="<%= u.id %>"><%= u.fullname %></option>
@@ -124,7 +147,15 @@ In lieu of user login...
       </tbody>
     </table>
     <div style='margin: 10px 0px 50px 0px;'>
-      <a href='#' id='add_vendor'>Add Vendor</a>
+      <a href='#' id='add_vendor'>Add Vendor</a><br />
+      <div id='div_vendor_select' style='margin-top: 10px;'>
+        <select id='vendor_select'>
+          <option>Select vendor</option>
+            <% @vendors.each do |v| %>  
+              <option value="<%= v.id %>"><%= "#{v.category.name} - #{v.name}, #{v.address}, #{v.city}, #{v.state}, #{v.zip} "%></option>
+            <% end %>
+        </select>
+      </div>
       
     </div>
   </div>

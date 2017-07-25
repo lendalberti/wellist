@@ -6,7 +6,33 @@ class ApiController < ApplicationController
   
   # add vendor to wellist
   def create
-    byebug
+    status_code = ''
+    success = 200
+    failure = 500
+    message = ''
+
+    pDebug("Create; params=[#{params.inspect}]")
+
+    w = Wellist.new
+    w.user_id   = params['user_id']
+    w.vendor_id = params['vendor_id']
+
+    if Wellist.where(user_id: params['user_id']).where(vendor_id: params['vendor_id']).count == 0
+      if w.save
+        pDebug("Adding vendor: [#{w.inspect}]")
+        status_code = success
+      else
+        pDebug("Can't add vendor to wellist: [#{w.inspect}], error: #{w.errors.messages}")
+        status_code = failure
+        message = w.errors.messages
+      end
+    else
+      status_code = failure
+      message = 'vendor alread added'
+    end
+
+    render :json => { :status_code => status_code, :msg => message }
+
   end
   
   # make list or vendor public or private
