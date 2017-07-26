@@ -1,24 +1,40 @@
-# README
+README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. Set up MySQL
+    * mysql -uroot -p       # log into MySQL as root; then execute the follwoing commands:
 
-Things you may want to cover:
+        * GRANT ALL PRIVILEGES ON wellist_development.* 
+                                      TO 'wellist'@'localhost' IDENTIFIED BY 'wellist';
+        * GRANT ALL PRIVILEGES ON wellist_production.* 
+                                      TO 'wellist'@'localhost' IDENTIFIED BY 'wellist';
+        * GRANT ALL PRIVILEGES ON wellist_test.* 
+                                      TO 'wellist'@'localhost' IDENTIFIED BY 'wellist';
 
-* Ruby version
 
-* System dependencies
+2. Clone wellist repository
+  * unzip wellist2.zip
+  * cd wellist2
 
-* Configuration
 
-* Database creation
+3. Run rake files
 
-* Database initialization
+    * rails db:create       # create  development, test, and production databases 
+                            #       (see config/databases.yml)
 
-* How to run the test suite
+    * rails db:migrate      # create tables 
+                            #       (see db/shema.rb)
 
-* Services (job queues, cache servers, search engines, etc.)
+    * rails db:seed         # fill tables with some data
 
-* Deployment instructions
+    * rails test            # run api controller test 
+                            #      (see test/controllers/api_controller_test.rb)
 
-* ...
+    
+4. Start rails server
+    * rails s               # starts the server
+
+
+5. Display database contents using browser
+    * open 'http://localhost:3000'    
+
+
